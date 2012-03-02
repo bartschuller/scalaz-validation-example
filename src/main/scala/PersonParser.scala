@@ -29,7 +29,8 @@ object PersonParser {
     val name = components(0).fold(_.successNel[String], "No name found".failNel[String])
     val date = components(1).fold(parseDate(_), "No date found".failNel[Date])
     val address = components(2).fold(parseAddress(_), "No address found".failNel[List[String]])
-    (name |@| date |@| address) { Person(_, _, _)}
+    //(name |@| date |@| address) { Person(_, _, _) }
+    (name ⊛ date ⊛ address) { Person(_, _, _) }
   }
 
   def parseDate(in: String): ValidationNEL[String, Date] = {
